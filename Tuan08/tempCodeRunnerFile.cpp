@@ -1,0 +1,1 @@
+    // cout << "So nguyen duong nho nhat can tim để 1+2+3+...+n > 10000 la: " << find_n() << "\n";

@@ -1,0 +1,4 @@
+Tổng các phần tử của mảng là: 120
+Số lượng số nguyên tố trong mảng là: 2
+Giá trị lớn thứ 6 trong mảng là: 3
+Mảng sau khi sắp xếp giảm dần là: 123 23 20 4 4 3 0 0 -3 -54 

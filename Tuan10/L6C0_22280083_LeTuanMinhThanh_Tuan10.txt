@@ -1,0 +1,402 @@
+/BAI1
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+bool nguyenToCungNhau(int a, int b);
+
+int main() {
+    // Mở file input.txt để đọc dữ liệu
+    ifstream fin("input.txt");
+    if (!fin) {
+        cout << "Không thể mở file input.txt" << endl;
+        return 0;
+    }
+    else 
+        cout << "Da doc file input.txt.\n";
+
+    const int MAX = 100;
+    int arr[MAX];
+    int n = 0; 
+
+    while (fin >> arr[n]) {
+        n++;
+    }
+
+    fin.close();
+
+    // Mở file output.txt để ghi kết quả
+    ofstream fout("output.txt");
+    if (!fout) {
+        cout << "Không thể mở file output.txt" << endl;
+        return 0;
+    }
+    else    
+        cout << "Da mo file output.txt\n";
+
+    // Tính tổng các phần tử của mảng
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    fout << "Tổng các phần tử của mảng là: " << sum << endl;
+
+    // Đếm số cặp số nguyên tố cùng nhau trong mảng
+    int count = 0;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (nguyenToCungNhau(arr[i], arr[j])) {
+                count++;
+            }
+        }
+    }
+    fout << "Số cặp số nguyên tố cùng nhau trong mảng là: " << count << endl;
+
+    // Tìm giá trị lớn nhì trong mảng
+    int max1 = arr[0]; // Giá trị lớn nhất
+    int max2 = arr[0]; // Giá trị lớn nhì
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max1) {
+            max2 = max1;
+            max1 = arr[i];
+        }
+        else if (arr[i] > max2 && arr[i] < max1) {
+            max2 = arr[i];
+        }
+    }
+    fout << "Giá trị lớn nhì trong mảng là: " << max2 << endl;
+
+    // Sắp xếp mảng tăng dần
+    sort(arr, arr + n);
+    
+    fout << "Mảng sau khi sắp xếp tăng dần là: ";
+    
+    for (int i = 0; i < n; i++) {
+        fout << arr[i] << " ";
+    }
+    
+    fout << endl;
+
+    // Đóng file output.txt
+    fout.close();
+
+}
+
+// Hàm kiểm tra hai số nguyên tố cùng nhau
+bool nguyenToCungNhau(int a, int b) {
+    // Tìm ước chung lớn nhất của a và b
+    while (a != b) {
+        if (a > b) {
+            a = a - b;
+        }
+        else {
+            b = b - a;
+        }
+    }
+    // Nếu ước chung lớn nhất là 1 thì hai số nguyên tố cùng nhau
+    return (a == 1);
+}
+
+----------------------------------------------------------------------------------------
+/BAI2
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+
+bool nguyenTo(int n);
+
+int main() {
+    ifstream fin("input2.txt");
+    if (!fin) {
+        cout << "Không thể mở file input2.txt" << endl;
+        return 0;
+    }
+    const int MAX = 100;
+    int arr[MAX];
+    int n; 
+
+    fin >> n; // Đọc số lượng phần tử
+    for (int i = 0; i < n; i++) {
+        fin >> arr[i]; 
+    }
+
+    fin.close();
+
+    ofstream fout("output2.txt");
+    if (!fout) {
+        cout << "Không thể mở file output2.txt" << endl;
+        return 0;
+    }
+
+    // Tính tổng các phần tử của mảng
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    
+    fout << "Tổng các phần tử của mảng là: " << sum << endl;
+
+    // Đếm số lượng số nguyên tố trong mảng
+    int count = 0;
+    
+    for (int i = 0; i < n; i++) {
+        if (nguyenTo(arr[i])) {
+            count++;
+        }
+    }
+    
+    fout << "Số lượng số nguyên tố trong mảng là: " << count << endl;
+
+    
+   // Tìm giá trị lớn thứ m trong mảng
+   int m; // Chỉ số của giá trị lớn thứ m
+   
+   cout << "Nhập giá trị của m: ";
+   cin >> m;
+   
+   if (m > n || m <= 0) {
+       cout << "Giá trị của m không hợp lệ" << endl;
+       return 0;
+   }
+   
+   // Sao chép mảng sang một mảng khác để không làm thay đổi thứ tự ban đầu
+   int temp[MAX];
+   
+   for (int i = 0; i < n; i++) {
+       temp[i] = arr[i];
+   }
+   
+   // Sắp xếp mảng tạm giảm dần
+   sort(temp, temp + n, greater<int>());
+   
+   // Lấy giá trị lớn thứ m trong mảng tạm
+   int max_m = temp[m - 1];
+   
+   fout << "Giá trị lớn thứ " << m << " trong mảng là: " << max_m << endl;
+
+    
+   // Sắp xếp mảng giảm dần
+   
+   sort(arr, arr + n, greater<int>());
+   
+   fout << "Mảng sau khi sắp xếp giảm dần là: ";
+   
+   for (int i = 0; i < n; i++) {
+       fout << arr[i] << " ";
+   }
+   
+   fout << endl;
+
+    
+   // Đóng file output2.txt
+   
+   fout.close();
+
+}
+
+// Hàm kiểm tra số nguyên tố
+bool nguyenTo(int n) {
+    // Nếu n nhỏ hơn 2 thì không phải số nguyên tố
+    if (n < 2) {
+        return false;
+    }
+    // Nếu n bằng 2 hoặc 3 thì là số nguyên tố
+    if (n == 2 || n == 3) {
+        return true;
+    }
+    // Nếu n chia hết cho 2 hoặc 3 thì không phải số nguyên tố
+    if (n % 2 == 0 || n % 3 == 0) {
+        return false;
+    }
+    // Kiểm tra các ước từ 5 đến căn bậc hai của n
+    for (int i = 5; i * i <= n; i += 6) {
+        if (n % i == 0 || n % (i + 2) == 0) {
+            return false;
+        }
+    }
+    // Nếu không có ước nào thì là số nguyên tố
+    return true;
+}
+----------------------------------------------------------------------------------------
+/BAI3
+
+#include <iostream>
+#include <fstream>
+#define MAX 100
+
+using namespace std;
+
+int main() {
+    // Mở file input3.txt để đọc dữ liệu
+    ifstream fin("input3.txt");
+    if (!fin) {
+        cout << "Không thể mở file input3.txt" << endl;
+        return 0;
+    }
+
+    int arr[MAX][MAX];
+    int m, n; 
+
+    fin >> m >> n; 
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            fin >> arr[i][j]; 
+        }
+    }
+
+    fin.close();
+
+    // Mở file output3.txt để ghi kết quả
+    ofstream fout("output3.txt");
+    if (!fout) {
+        cout << "Không thể mở file output3.txt" << endl;
+        return 0;
+    }
+
+    // Tính tổng các phần tử của mảng
+    int sum = 0;
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            sum += arr[i][j];
+        }
+    }
+    
+    fout << "Tổng các phần tử của mảng là: " << sum << endl;
+
+    // Đếm số lượng chẵn và lẻ trong mảng
+    int even = 0; 
+    int odd = 0; 
+    
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (arr[i][j] % 2 == 0) {
+                even++;
+            }
+            else {
+                odd++;
+            }
+        }
+    }
+    
+    fout << "Số lượng chẵn trong mảng là: " << even << endl;
+    
+    fout << "Số lượng lẻ trong mảng là: " << odd << endl;
+
+   fout.close();
+   
+}
+
+----------------------------------------------------------------------------------------
+//HÔN HỢP
+#include<iostream>
+using namespace std;
+struct toado {
+	int hd;
+	int td;
+};
+struct dstoado {
+	toado s[100];
+	int n;
+};   
+void nhapToaDo(toado& a);
+void nhapDanhSachToaDo(dstoado& a);
+void xuatToaDo(toado a);
+void xuatDanhSachToaDo(dstoado a);
+int demHoanhDoDuong(dstoado a);
+int maxTungDo(dstoado a);
+void diemCoTungDoMax(dstoado a);
+toado tongToaDo(toado a, toado b);
+toado tongMangToaDo(dstoado a);
+toado tongMangToaDo2(dstoado a);
+
+
+int main() {
+	dstoado a;
+	nhapDanhSachToaDo(a);
+	xuatDanhSachToaDo(a);
+	cout << "\nNhung diem co hoanh do duong la:";
+	demHoanhDoDuong(a);
+	cout << "\nNhung diem co tung do max la:";
+	diemCoTungDoMax(a);
+	cout << "\nTong neu khong dung de quy:";
+	xuatToaDo(tongMangToaDo(a));
+	cout << "\nTong neu dung de quy:";
+	xuatToaDo(tongMangToaDo2(a));
+}
+void nhapToaDo(toado& a) {  //Ham nhap 1 diem
+	cout << "\nMoi nhap hoanh do:";
+	cin >> a.hd;
+	cout << "Moi nhap tung do:";
+	cin >> a.td;
+}
+void nhapDanhSachToaDo(dstoado& a) { //Ham nhap nhieu diem
+	cout << "\nMoi nhap so luong diem:";
+	cin >> a.n;
+	for (int i = 0; i < a.n; i++) {
+		cout << "\nMoi nhap diem thu " << i + 1;
+		nhapToaDo(a.s[i]);
+	}
+}
+void xuatToaDo(toado a) { //Ham xuat 1 diem
+	cout << "(" << a.hd << "," << a.td << ")";
+}
+void xuatDanhSachToaDo(dstoado a) { //Ham xuat nhieu diem
+	for (int i = 0; i < a.n; i++) {
+		xuatToaDo(a.s[i]);
+		cout << " ";
+	}
+}
+int demHoanhDoDuong(dstoado a) {   //Ham dem so hoanh do duong
+	int dem = 0;
+	for (int i = 0; i < a.n; i++) {
+		if (a.s[i].hd > 0) {
+			dem++;
+		}
+	}
+	return dem;
+}
+int maxTungDo(dstoado a) {  //Ham tim ra tung do lon nhat trong cac diem
+	int max = a.s[0].td;
+	for (int i = 1; i < a.n; i++) {
+		if (max < a.s[i].td) {
+			max = a.s[i].td;
+		}
+	}
+	return max;
+}
+void diemCoTungDoMax(dstoado a) {  //Ham tim ra cac diem co gia tri tung do la max
+	cout << "Nhung diem co tung do lon nhat la:";
+	for (int i = 0; i < a.n; i++) {
+		if (a.s[i].td == maxTungDo(a)) {
+			xuatToaDo(a.s[i]);
+		}
+	}
+}
+toado tongToaDo(toado a, toado b) {  //Ham de tinh tong 2 diem
+	toado c;
+	c.hd = a.hd+b.hd;
+	c.td = a.td+b.td;
+	return c;
+}
+toado tongMangToaDo(dstoado a) {  //Ham tinh tong mang cua diem
+	toado b;
+	b.hd = 0;
+	b.td = 0;
+	for (int i = 0; i < a.n; i++) {  //vong lap duoc goi de truy xuat va cong tung phan tu
+		b=tongToaDo(b, a.s[i]);
+	}
+	return b;
+}
+toado tongMangToaDo2(dstoado a) { //Ham tinh tong nhung dung de quy
+	a.n--;
+	if (a.n == 0) {   
+		return a.s[0];
+	}
+	return tongToaDo(a.s[a.n], tongMangToaDo2(a));
+
+}

@@ -1,0 +1,262 @@
+//Bài 1
+#include <iostream>
+#include <cmath>
+#include <string>
+using namespace std;
+
+struct DT{
+    float a;
+    float b;
+};
+struct TINH{
+    int ma;     //Mã tỉnh
+    char ten[30];   // tên tỉnh
+    int ds;     //dân số 
+    float dientich;     // diện tích
+};
+
+void nhap_pt(DT dt[], int n);
+void xuat_dt(DT dt[], int n);
+bool check_trung_phuong(float a, float b, float c, float d);
+bool check_ss(DT dt[], int n);
+bool check_dt_qua_P(DT dt[], int n, DT p);
+void nhap_du_lieu_cac_tinh(TINH tinh[], int n);
+void xuat_1_tinh(TINH t);
+void xuat_mang_tinh(TINH tinh[], int n);
+TINH dien_tich_max(TINH tinh[], int n);
+void hoanDoi(TINH &a, TINH &b);
+void sap_xep_giam_theo_dien_tich(TINH tinh[], int n);
+void de_quy_tang(int a[], int n);
+void nhap_mang_1_chieu(int a[], int n);
+void xuat_mang_1_chieu(int a[], int n);
+void de_quy_tang(int a[], int n);
+int uoc_le_lon_nhat(int n, int n0);
+double tong_b7(int n);
+double tong_b8(int n);
+double tong_b9(int n, int m);
+double tong_b10(int n);
+
+int main(){
+    int n;
+    cout << "Nhap so duong thang: "; 
+    cin >> n;
+    DT dt[100];
+    nhap_pt(dt,n);
+    xuat_dt(dt,n);
+    if(check_ss(dt,n))
+        cout << "Cac duong thang song song voi nhau\n";
+    else
+        cout << "Cac duong thang khong song song voi nhau\n";
+    DT p;
+    cout << "Nhap toa do diem P: ";
+    cin >> p.a >> p.b;
+    if(check_dt_qua_P(dt,n,p))
+        cout << "Ton tai duong thang di qua P\n";
+    else 
+        cout << "Khong co duong thang nao di qua P\n";
+    
+
+    TINH tinh[100];
+    cout << "NHAP THONG TIN CAC TINH\n\n";
+    cout << "Nhap so tinh: ";
+    cin >> n;
+    nhap_du_lieu_cac_tinh(tinh, n);
+    cout << "\nTHONG TIN CAC TINH: \n";
+    xuat_mang_tinh(tinh, n);
+    cout << "CAC TINH CO DAN SO HON 1.000.000:\n";
+    for (int i=0; i<n; i++){
+        if(tinh[i].ds >1000000){
+            xuat_1_tinh(tinh[i]);
+            cout << endl;
+        }
+    }
+    TINH max = dien_tich_max(tinh,n);
+    cout << "\nTINH CO DIEN TICH LON NHAT LA:\n";
+    xuat_1_tinh(max);
+    cout << "\nSAP SEP TINH THEO DIEN TICH GIAM DAN: \n";
+    sap_xep_giam_theo_dien_tich(tinh,n);
+    xuat_mang_tinh(tinh,n);
+
+    cout << "Nhap so phan tu mang 1 chieu: ";
+    cin >> n;
+    int a[100];
+    cout << "NHAP MANG\n";
+    nhap_mang_1_chieu(a,n);
+    cout << "MANG SAU KHI SAP XEP\n";
+    de_quy_tang(a,n);
+    xuat_mang_1_chieu(a,n);
+    cout << endl;
+
+    cout << "Nhap so nguyen n: ";
+    cin >> n;
+    int n0=n;
+    cout << "Uoc le lon nhat cua " << n0 << " la: " << uoc_le_lon_nhat(n,n0) << endl;
+
+    cout << "Nhap n: ";
+    cin >> n;
+    cout << "Tong S bai 7 = " << tong_b7(n) << endl;
+    cout << "Tong S bai 8 = " << tong_b8(n) << endl;
+    int m=1;
+    cout << "Tong S bai 9 = " << tong_b9(n,m) << endl;
+    cout << "Tong S bai 10 = " << tong_b10(n) << endl;
+    return 0;
+}
+
+void nhap_pt(DT dt[], int n){
+    for(int i=0; i<n; i++){
+        cout << "Nhap duong thang thu " << i+1 << ": ";
+        cin >> dt[i].a >> dt[i].b;
+    }
+}
+void xuat_dt(DT dt[], int n){
+    cout << "Cac duong thang da nhap la:\n";
+    for(int i=0; i<n; i++){
+        cout << "y = " <<  dt[i].a << "x + " << dt[i].b << endl;
+    }
+}
+bool check_trung_phuong(float a, float b, float c, float d){ //kiểm tra trùng phương
+    if(a/c != b/d)
+        return true;
+    else
+        return false;
+}
+bool check_ss(DT dt[], int n){  //kiểm tra có tồn tại 1 đường thẳng nào không song song với các đường thẳng còn lại không
+    for(int i=0; i<n; i++){
+        for(int j=i+1; j<n; j++){
+            if(dt[i].a == dt[j].a && dt[i].b == dt[j].b)
+                return false;
+            if(check_trung_phuong(dt[i].a,dt[i].b,dt[j].a,dt[j].b))
+                return false;
+        }
+    }
+    return true;
+}
+
+bool check_dt_qua_P(DT dt[], int n, DT p){
+    for (int i=0; i<n; i++){
+        if(p.b == dt[i].a*p.a + dt[i].b)
+            return true;
+    }
+    return false;
+}
+
+void nhap_du_lieu_cac_tinh(TINH tinh[], int n){
+    for (int i=0; i<n; i++){
+        cout << "Nhap thong tin tinh thu " << i+1 << ": \n";
+        cout << "Ma tinh: ";
+        cin >> tinh[i].ma;
+        cout << "Ten tinh: ";
+        cin.ignore();
+        cin.getline(tinh[i].ten, 30); 
+        cout << "Dan so: ";
+        cin >> tinh[i].ds;
+        cout << "Dien tich: ";
+        cin >> tinh[i].dientich;
+    }
+}   
+
+void xuat_1_tinh(TINH t) {
+    cout << "Ma tinh: " << t.ma << endl;
+    cout << "Ten tinh: " << t.ten << endl;
+    cout << "Dan so: " << t.ds << endl;
+    cout << "Dien tich: " << t.dientich << " km2" << endl;
+}
+void xuat_mang_tinh(TINH tinh[], int n){
+    for (int i = 0; i < n; i++) {
+        cout << "Thong tin tinh thu " << i + 1 << endl;
+        xuat_1_tinh(tinh[i]);
+        cout << endl;
+    }
+}
+
+TINH dien_tich_max(TINH tinh[], int n){
+    TINH max = tinh[0]; 
+    for (int i = 1; i < n; i++) {
+        if (tinh[i].dientich > max.dientich) {
+            max = tinh[i]; 
+        }
+    }
+    return max;
+}
+
+void hoanDoi(TINH &a, TINH &b){
+    TINH temp = a;
+    a = b;
+    b = temp;
+}
+
+void sap_xep_giam_theo_dien_tich(TINH tinh[], int n){
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (tinh[i].dientich < tinh[j].dientich) {
+                hoanDoi(tinh[i], tinh[j]); 
+            }
+        }
+    }
+}
+
+void nhap_mang_1_chieu(int a[], int n){
+    for (int i=0; i<n; i++){
+        cin >> a[i];
+    }
+}
+void xuat_mang_1_chieu(int a[], int n){
+    for (int i=0; i<n; i++){
+        cout << a[i] << " ";
+    }
+    cout << endl;
+}
+
+// Hàm đệ quy để sắp xếp mảng tăng dần
+void de_quy_tang(int a[], int n){
+    if (n <= 1) {
+        return;
+    }
+    de_quy_tang(a, n - 1);
+    
+    int last = a[n - 1];
+    
+    // Tìm vị trí thích hợp để chèn phần tử cuối cùng vào mảng con đã sắp xếp
+    int j = n - 2;
+    while (j >= 0 && a[j] > last) {
+        // Dịch chuyển các phần tử lớn hơn phần tử cuối cùng sang phải một vị trí
+        a[j + 1] = a[j];
+        j--;
+    }
+
+    // Chèn phần tử cuối cùng vào vị trí thích hợp
+    a[j + 1] = last;
+}
+
+int uoc_le_lon_nhat(int n, int n0){
+    if(n0%n == 0 && n%2==1)
+        return n;
+    return uoc_le_lon_nhat(n-1, n0);
+}   
+
+double tong_b7(int n){
+    if(n==1)
+        return sqrt(2);   
+    return sqrt(2+tong_b7(n-1));
+}
+
+double tong_b8(int n){
+    if(n==1)
+        return 1;
+    return sqrt(n + tong_b8(n-1));
+}
+
+double tong_b9(int n, int m){
+    if(m==n)
+        return sqrt(n);
+    return sqrt(m+tong_b9(n,m+1));
+}
+
+double tong_b10(int n){
+    if(n==1)
+        return 0.5;
+    return 1/(1+tong_b10(n-1));
+}
+
+----------------------------------------------------------------------------------------------------------------------------------
+

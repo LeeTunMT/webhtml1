@@ -1,0 +1,4 @@
+Tổng các phần tử của mảng là: 406
+Số cặp số nguyên tố cùng nhau trong mảng là: 31
+Giá trị lớn nhì trong mảng là: 127
+Mảng sau khi sắp xếp tăng dần là: 2 5 10 11 19 31 100 101 127 

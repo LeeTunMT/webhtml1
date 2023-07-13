@@ -1,0 +1,3 @@
+Tổng các phần tử của mảng là: 122
+Số lượng chẵn trong mảng là: 7
+Số lượng lẻ trong mảng là: 8

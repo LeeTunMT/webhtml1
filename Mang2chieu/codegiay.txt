@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return 0;
+}
+
+bool check_perfect_num(int x){
+    int sum=0;
+    for(int i=1; i<x/2; i++){
+        if(x%i==0){
+            sum+=i;
+        }
+    }
+    if(sum==x)
+        return true;
+    return false;
+}
+
+bool check_existion_perfect_num(int a[][max], int m, int n){
+    for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+            if(check_perfect_num(a[i][j]))
+                return true;
+        }
+    }
+    return false;
+}
+
+bool check_num(x){
+    if(x)
+        return true;
+    return false;
+}
+int find_maximum_num(float b[][max], int m, int n){
+    int count =m*n;
+    for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+            if(b[i+1][j]> b[i][j] || b[i][j+1]>b[i][j] || b[i-1][j]>b[i][j] || b[i][j-1]>b[i][j]){
+                count--;
+            }
+        }
+    }
+    return count;
+}
+
+1: 
+
+10 2 3
+4 5 6
+7 8 9
